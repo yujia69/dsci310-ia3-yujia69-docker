@@ -24,7 +24,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build the Docker image
-        run: docker build --platform=linux/amd64 . --file Dockerfile --tag fishfish69/dsci310-ia3-yujia69-docker:latest
+        run: docker build --platform=linux/amd64 . --file Dockerfile --tag fishifish69/dsci310-ia3-yujia69-docker:latest
 
       - name: Push the Docker image
         run: docker push fishifish69/dsci310-ia3-yujia69-docker:latest
