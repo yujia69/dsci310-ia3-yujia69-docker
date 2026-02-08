@@ -26,5 +26,5 @@ jobs:
           push: true
           
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/dsci310-ia3-fishfish69-docker:latest
-            ${{ secrets.DOCKER_USERNAME }}/dsci310-ia3-fishfish69-docker:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/dsci310-ia3-yujia69-docker:latest
+            ${{ secrets.DOCKER_USERNAME }}/dsci310-ia3-yujia69-docker:${{ github.sha }}
