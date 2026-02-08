@@ -1,21 +1,27 @@
 FROM rocker/rstudio:4.4.2
 
-# Switch to root to install packages
+# 1. Switch to root for installation
 USER root
 
-# Copy renv files
-COPY renv.lock renv.lock
-COPY renv/ renv/
+# 2. Set a working directory (standard practice)
+WORKDIR /home/rstudio/project
 
-# Install renv inside container
+# 3. Copy only necessary renv files
+# Note: Ensure these files exist in your GitHub repo!
+COPY renv.lock .
+COPY renv/activate.R renv/
+COPY .Rprofile .
+
+# 4. Install renv and restore
+# We use --vanilla to ensure a clean R session
 RUN Rscript -e "install.packages('renv', repos='https://cloud.r-project.org')"
-
-# Restore packages from lockfile
 RUN Rscript -e "renv::restore()"
 
-# Fix permissions for rstudio user
-RUN chown -R rstudio:rstudio /home/rstudio
-RUN chmod -R u+rwX /home/rstudio
+# 5. Copy the rest of your scripts (like cowsay_test.R)
+COPY . .
 
-# Switch back to rstudio user for normal operation
+# 6. Fix permissions so the 'rstudio' user owns the project
+RUN chown -R rstudio:rstudio /home/rstudio/project
+
+# 7. Switch back to rstudio user
 USER rstudio
