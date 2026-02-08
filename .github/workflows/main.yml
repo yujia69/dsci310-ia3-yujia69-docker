@@ -26,5 +26,5 @@ jobs:
           push: true
           # The tags below use your username: yujia69
           tags: |
-            yujia69/dsci310-ia3-yujia69-docker:latest
-            yujia69/dsci310-ia3-yujia69-docker:${{ github.sha }}
+            fishfish69/dsci310-ia3-yujia69-docker:latest
+            fishfish69/dsci310-ia3-yujia69-docker:${{ github.sha }}
