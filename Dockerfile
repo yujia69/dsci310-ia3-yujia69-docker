@@ -1,27 +1,33 @@
 FROM rocker/rstudio:4.4.2
 
-# 1. Switch to root for installation
+# 1. Install system dependencies required for R packages (if any)
+# cowsay is simple, but it's good practice to have these
 USER root
+RUN apt-get update && apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 2. Set a working directory (standard practice)
+# 2. Set the working directory inside the container
 WORKDIR /home/rstudio/project
 
-# 3. Copy only necessary renv files
-# Note: Ensure these files exist in your GitHub repo!
+# 3. Copy renv files first (better for Docker caching)
+# We copy the lockfile, the profile, and the activation script
 COPY renv.lock .
-COPY renv/activate.R renv/
 COPY .Rprofile .
+COPY renv/activate.R renv/
 
-# 4. Install renv and restore
-# We use --vanilla to ensure a clean R session
+# 4. Install renv and restore the environment
+# We use --vanilla to prevent local R settings from interfering
 RUN Rscript -e "install.packages('renv', repos='https://cloud.r-project.org')"
-RUN Rscript -e "renv::restore()"
+RUN Rscript -e "renv::restore(prompt = FALSE)"
 
-# 5. Copy the rest of your scripts (like cowsay_test.R)
+# 5. Copy the rest of your project files
 COPY . .
 
-# 6. Fix permissions so the 'rstudio' user owns the project
+# 6. Fix permissions so the 'rstudio' user can work in this folder
 RUN chown -R rstudio:rstudio /home/rstudio/project
 
-# 7. Switch back to rstudio user
+# 7. Finalize setup
 USER rstudio
