@@ -13,8 +13,9 @@ RUN Rscript -e "install.packages('renv', repos='https://cloud.r-project.org')"
 # Restore packages from lockfile
 RUN Rscript -e "renv::restore()"
 
-# Fix permissions
+# Fix permissions for rstudio user
 RUN chown -R rstudio:rstudio /home/rstudio
+RUN chmod -R u+rwX /home/rstudio
 
 # Switch back to rstudio user for normal operation
 USER rstudio
