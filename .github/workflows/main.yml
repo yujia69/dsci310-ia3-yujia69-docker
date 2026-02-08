@@ -27,7 +27,7 @@ jobs:
         run: docker build --platform=linux/amd64 . --file Dockerfile --tag fishfish69/dsci310-ia3-yujia69-docker:latest
 
       - name: Push the Docker image
-        run: docker push fishfish69/dsci310-ia3-yujia69-docker:latest
+        run: docker push fishifish69/dsci310-ia3-yujia69-docker:latest
 
       - name: Run cowsay test in container
-        run: docker run --platform=linux/amd64 --rm fishfish69/dsci310-ia3-yujia69-docker:latest Rscript -e "cowsay::say('GitHub Action Success!', by='cow')"
+        run: docker run --platform=linux/amd64 --rm fishifish69/dsci310-ia3-yujia69-docker:latest Rscript -e "cowsay::say('GitHub Action Success!', by='cow')"
