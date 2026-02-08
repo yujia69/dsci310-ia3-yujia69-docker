@@ -13,3 +13,6 @@ RUN Rscript -e "install.packages('renv', repos='https://cloud.r-project.org')"
 # Restore packages from lockfile
 RUN Rscript -e "renv::restore()"
 
+USER root
+RUN Rscript -e "renv::restore()"
+USER rstudio
